@@ -15,6 +15,7 @@ const NavBar = () => {
           dispatch(removeUser());
           return navigate('/login')
         }
+        // eslint-disable-next-line no-unused-vars
         catch(err){
           //error message will be displayed here
         }
