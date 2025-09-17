@@ -3,39 +3,39 @@ import axios from 'axios'
 import React, { useEffect } from 'react'
 import { BASE_URL } from '../utils/constants'
 import { useDispatch, useSelector } from 'react-redux'
-import { addConnection } from '../utils/connectionSlice';
+import { addRequest } from '../utils/requestSlice'
 
-const Connections = () => {
-  const connections = useSelector((store) => store.connections);
-  const dispatch = useDispatch();
-
-  const fetchConnections = async () => {
-    try {
-      const res = await axios.get(BASE_URL + '/user/connections', { withCredentials: true });
-      dispatch(addConnection(res.data.data));
-    } catch (err) {
-      //handling error
+const Requests = () => {
+    const requests=useSelector((store)=>store.requests);
+    const dispatch=useDispatch();
+    const fetchRequests=async()=>{
+        try{
+        const res=await axios.get(BASE_URL+'/user/requests/received',{withCredentials:true});
+        dispatch(addRequest(res.data.data))
     }
-  };
-
-  useEffect(() => { fetchConnections() }, []);
-
-  if (!connections) return null;
-  if (connections.length === 0) return <h1>Connections not found</h1>;
-
+    catch(err){
+        //err is handled here
+    }
+    }
+    useEffect(()=>{fetchRequests()},[])
+    
+    if(!requests) return;
+    if(requests.length===0) return <h1>No requests found</h1>
+    
   return (
-    <div className="flex justify-center my-10 w-full">
+    <div>
+      <div className="flex justify-center my-10 w-full">
       <div className="w-3/4">
-        <h1 className="font-bold text-2xl mb-4">Connections</h1>
+        <h1 className="font-bold text-2xl mb-4">Requests</h1>
 
         <ul className="list bg-base-100 rounded-box shadow-md">
           <li className="p-4 pb-2 text-xs opacity-60 tracking-wide">
           </li>
 
-          {connections.map((connection) => {
-            const { _id, firstName, lastName, photoUrl, age, gender, about } = connection;
+          {requests.map((request) => {
+            const { _id, firstName, lastName, photoUrl, age, gender, about } = request.fromUserId;
             return (
-              <li key={_id} className="list-row flex items-start gap-4 p-4 border-b bg-base-300">
+              <li key={_id} className="list-row flex justify-between items-centre gap-4 p-4 border-b bg-base-300">
                 {/* Profile Picture */}
                 <div>
                   <img
@@ -55,13 +55,20 @@ const Connections = () => {
                     {about}
                   </p>
                 </div>
+                <div className='display-flex'>
+                <button className="btn btn-primary mx-2">Reject</button>
+                <button className="btn btn-secondary mx-2">Accept</button>
+                </div>
               </li>
             );
           })}
         </ul>
       </div>
     </div>
-  );
-};
+    </div>
+  )
+}
 
-export default Connections;
+export default Requests
+
+
