@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
 import UserCard from './UserCard';
 import axios from 'axios'
@@ -37,6 +37,7 @@ const EditProfile = ({user}) => {
       setError(err.response?.data?.error)
     }
   }
+
 
   return (
       <div>

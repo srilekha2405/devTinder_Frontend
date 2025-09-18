@@ -9,6 +9,9 @@ import {BASE_URL} from "../utils/constants"
 const Login = () => {
   const [emailId, setEmailId]=useState("srilekha@gmail.com");
   const [password, setPassword]=useState("Srilekha@1234");
+  const [firstName,setFirstName]=useState("");
+  const [lastName,setLastName]=useState("");
+  const [isLoginForm,setIsLoginForm]=useState(true);
   const [error,setError]=useState("")
   const dispatch=useDispatch();
   const navigate=useNavigate();
@@ -20,7 +23,7 @@ const Login = () => {
         password
       },{withCredentials:true}
       );
-      dispatch(addUser(res.data))
+      dispatch(addUser(res.data.data))
       return navigate('/');
       }
       catch(err){
@@ -29,6 +32,23 @@ const Login = () => {
       }
       
   }
+  const handleSignUp=async()=>{
+    try{
+      const res=await axios.post(BASE_URL+"/signup",{
+        firstName,
+        lastName,
+        emailId,
+        password,
+      },{withCredentials:true});
+      dispatch(addUser(res?.data?.data));
+      navigate('/profile')
+    }
+    catch(err){
+      setError(err?.response?.data||"Something went wrong")
+      console.error(err)
+    }
+
+  }
   return (
     <div className='flex justify-center my-10'>
       <div className="card bg-base-300 w-96 shadow-sm">
@@ -36,7 +56,24 @@ const Login = () => {
             <h2 className="card-title">Enter your credentials</h2>
             <div>
             <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
-            <legend className="fieldset-legend">Login</legend>
+            <legend className="fieldset-legend">{isLoginForm?"Login":"SignUp"}</legend>
+
+            {!isLoginForm &&(<>
+            <label className="label">firstName</label>
+            <input type="text"
+             className="input" 
+             placeholder="FirstName" 
+             value={firstName}
+             onChange={(e)=>setFirstName(e.target.value)}/>
+
+            <label className="label">lastName</label>
+            <input type="text" 
+             className="input" 
+             placeholder="LastName" 
+             value={lastName}
+             onChange={(e)=>setLastName(e.target.value)}/>
+             </>
+            )}
 
             <label className="label">Email</label>
             <input type="email"
@@ -52,13 +89,17 @@ const Login = () => {
              value={password}
              onChange={(e)=>setPassword(e.target.value)}/>
 
-            <button className="btn btn-neutral mt-4" onClick={handleLogin}>Login</button>
+            <button className="btn btn-neutral mt-4" onClick={isLoginForm ? handleLogin : handleSignUp}>{isLoginForm?"Login":"Signup"}</button>
             <p className='text-red-500'>{error}</p>
             </fieldset>
 
             </div>
             <div className="card-actions justify-center">
-                <button className="btn btn-primary">SignUp</button>
+                <button className="btn btn-primary" onClick={()=>setIsLoginForm(!isLoginForm)}>
+                  {isLoginForm
+                ? "Don't have an account? SignUp"
+                : "Already have an account? Login"}
+                </button>
             </div>
         </div>
     </div>
