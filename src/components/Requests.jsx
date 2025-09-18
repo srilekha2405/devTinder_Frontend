@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import axios from 'axios'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BASE_URL } from '../utils/constants'
 import { useDispatch, useSelector } from 'react-redux'
 import { addRequest, removeRequest } from '../utils/requestSlice'
@@ -58,7 +58,7 @@ const Requests = () => {
                 <div className="flex-1">
                   <div className="font-semibold">{firstName} {lastName}</div>
                   <div className="text-xs uppercase font-semibold opacity-60">
-                    {age} years • {gender}
+                    {age} years {gender}
                   </div>
                   <p className="list-col-wrap text-xs mt-1">
                     {about}
