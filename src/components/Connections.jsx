@@ -21,7 +21,21 @@ const Connections = () => {
   useEffect(() => { fetchConnections() }, []);
 
   if (!connections) return null;
-  if (connections.length === 0) return <h1>Connections not found</h1>;
+  if (connections.length === 0) {
+    return (
+      <div className="flex justify-center items-center h-[70vh]">
+        <div className="bg-base-300 shadow-lg rounded-2xl p-8 max-w-md w-full text-center">
+          <div className="text-5xl mb-4">🤝</div>
+          <h2 className="text-2xl font-bold text-base-content mb-2">
+            No Connections Yet
+          </h2>
+          <p className="text-base-content/70">
+            Once you connect with people, they’ll show up here.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex justify-center my-10 w-full">
@@ -29,14 +43,10 @@ const Connections = () => {
         <h1 className="font-bold text-2xl mb-4">Connections</h1>
 
         <ul className="list bg-base-100 rounded-box shadow-md">
-          <li className="p-4 pb-2 text-xs opacity-60 tracking-wide">
-          </li>
-
           {connections.map((connection) => {
             const { _id, firstName, lastName, photoUrl, age, gender, about } = connection;
             return (
               <li key={_id} className="list-row flex items-start gap-4 p-4 border-b bg-base-300">
-                {/* Profile Picture */}
                 <div>
                   <img
                     className="size-10 rounded-box"
@@ -45,12 +55,14 @@ const Connections = () => {
                   />
                 </div>
 
-                {/* User Info */}
                 <div className="flex-1">
                   <div className="font-semibold">{firstName} {lastName}</div>
-                  <div className="text-xs uppercase font-semibold opacity-60">
-                    {age} years • {gender}
-                  </div>
+                  {age && gender && (
+                    <div className="text-xs uppercase font-semibold opacity-60">
+                      {age} years  {gender}
+                    </div>
+                  )}
+
                   <p className="list-col-wrap text-xs mt-1">
                     {about}
                   </p>

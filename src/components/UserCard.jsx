@@ -20,7 +20,7 @@ const UserCard = ({user}) => {
       dispatch(removeUserFromFeed(userId))
       setToastMessage(status==='intrested'?'You are intrested in this profile':'you ignored this profile');
       setShowToast(true);
-      setTimeout(()=>setShowToast(false),3000);
+      setTimeout(()=>setShowToast(false),1000);
     }
     catch(err){
       //error is handled here

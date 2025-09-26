@@ -29,7 +29,24 @@ const Requests = () => {
     useEffect(()=>{fetchRequests()},[])
     
     if(!requests) return;
-    if(requests.length===0) return <h1>No requests found</h1>
+    if (requests.length === 0) {
+  return (
+    <div className="flex justify-center items-center h-[70vh] px-4">
+      <div className="bg-base-200 shadow-lg rounded-2xl p-8 max-w-md w-full text-center">
+        <div className="flex justify-center mb-6">
+          <span className="text-6xl">📭</span>
+        </div>
+        <h2 className="text-2xl font-bold text-base-content mb-2">
+          No Requests Found
+        </h2>
+        <p className="text-base-content/70 mb-6">
+          You don’t have any pending requests right now.  
+          Stay tuned — new ones may arrive soon!
+        </p>
+      </div>
+    </div>
+  );
+}
     
   return (
     <div>
